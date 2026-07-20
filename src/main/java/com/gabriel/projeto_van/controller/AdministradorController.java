@@ -5,7 +5,9 @@ import com.gabriel.projeto_van.dto.administrador.AdministradorResponseDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
 import com.gabriel.projeto_van.repository.AdministradorRepository;
+import com.gabriel.projeto_van.repository.UsuarioLoginRepository;
 import com.gabriel.projeto_van.service.AdministradorService;
+import com.gabriel.projeto_van.service.ClienteLoginService;
 import com.gabriel.projeto_van.service.MotoristaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,14 @@ public class AdministradorController {
     @Autowired
     private MotoristaService motoristaService;
 
+    @Autowired
+    private ClienteLoginService clienteLoginService;
+
     @PostMapping("/teste")
     public ResponseEntity<AdministradorResponseDTO> postRegistrar(@RequestBody @Valid AdministradorCreateDTO dto){
         AdministradorResponseDTO administradorResponseDTO = administradorService.registrar(dto);
 
+        this.clienteLoginService.registrar(dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(administradorResponseDTO);
