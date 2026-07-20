@@ -25,4 +25,8 @@ public class Motorista {
     @JoinColumn(name = "fk_administrador_id")
     private Administrador Id_administrador;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_Usuario_login_id")
+    private UsuarioLogin usuarioLogin;
+
 }
