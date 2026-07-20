@@ -32,7 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/adm/teste").permitAll()
-                        .requestMatchers("/adm/**").hasRole("ADM")
+                        .requestMatchers("/adm/**").hasRole("ADMIN")
                         .requestMatchers("/cliente/**").hasRole("CLIENTE")
                         .requestMatchers("/motorista/**").hasRole("MOTORISTA")
                         .anyRequest().authenticated()
