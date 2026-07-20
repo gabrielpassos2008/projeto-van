@@ -23,7 +23,7 @@ public class Motorista {
 
     @ManyToOne
     @JoinColumn(name = "fk_administrador_id")
-    private Administrador Id_administrador;
+    private Administrador administrador;
 
     @ManyToOne
     @JoinColumn(name = "fk_Usuario_login_id")
