@@ -5,22 +5,24 @@ import com.gabriel.projeto_van.model.UsuarioLogin;
 import com.gabriel.projeto_van.repository.UsuarioLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClienteLoginService {
+public class UsuarioLoginService {
 
     @Autowired
     private UsuarioLoginRepository repository;
 
-    public UsuarioLogin registrar(AdministradorCreateDTO usuario){
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UsuarioLogin registrar(AdministradorCreateDTO dto){
         UsuarioLogin usuarioNovo = new UsuarioLogin();
-        String senhaCriptografada = new BCryptPasswordEncoder().encode(usuario.senha());
 
-        usuarioNovo.setEmail(usuario.email());
-        usuarioNovo.setSenha(senhaCriptografada);
-        usuarioNovo.setRole(usuario.role());
-
+        usuarioNovo.setEmail(dto.email());
+        usuarioNovo.setSenha(passwordEncoder.encode(dto.senha()));
+        usuarioNovo.setRole(dto.role());
 
         return repository.save(usuarioNovo);
     }
