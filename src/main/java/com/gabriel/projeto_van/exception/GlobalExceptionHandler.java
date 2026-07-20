@@ -1,5 +1,6 @@
 package com.gabriel.projeto_van.exception;
 
+import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

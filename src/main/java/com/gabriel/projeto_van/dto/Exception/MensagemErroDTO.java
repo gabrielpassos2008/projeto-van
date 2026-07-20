@@ -1,4 +1,4 @@
-package com.gabriel.projeto_van.exception;
+package com.gabriel.projeto_van.dto.Exception;
 
 public record MensagemErroDTO(
         int status,
