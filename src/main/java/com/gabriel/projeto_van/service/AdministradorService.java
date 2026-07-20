@@ -22,7 +22,7 @@ public class AdministradorService {
     @Transactional
     public AdministradorResponseDTO registrar (AdministradorCreateDTO dto){
 
-        UsuarioLogin usuarioLogin = usuarioLoginService.registrar(dto);
+        UsuarioLogin usuarioLogin = usuarioLoginService.registrar(dto.email(), dto.senha(), dto.role());
 
         Administrador administrador = new Administrador();
         administrador.setEmail(usuarioLogin.getEmail());
@@ -33,4 +33,5 @@ public class AdministradorService {
 
         return new AdministradorResponseDTO(salvo.getId(), salvo.getEmail());
     }
+
 }
