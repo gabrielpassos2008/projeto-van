@@ -5,6 +5,8 @@ import com.gabriel.projeto_van.model.Role;
 import com.gabriel.projeto_van.model.UsuarioLogin;
 import com.gabriel.projeto_van.repository.UsuarioLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,13 @@ public class UsuarioLoginService {
         usuarioNovo.setRole(role);
 
         return repository.save(usuarioNovo);
+    }
+
+    public String retornarUsuarioPeloEmailDaAuntenticacao(){
+        Authentication authentication =
+                        SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+        return authentication.getName();
     }
 }
