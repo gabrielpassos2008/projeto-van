@@ -34,4 +34,8 @@ public class AdministradorService {
         return new AdministradorResponseDTO(salvo.getId(), salvo.getEmail());
     }
 
+    public Administrador retornarPeloEmail(String email){
+        return this.repository.findByEmail(email).orElseThrow();
+    }
+
 }
