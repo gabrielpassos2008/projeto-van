@@ -24,5 +24,7 @@ public class Cliente {
     @JoinColumn(name = "fk_Usuario_login_id")
     private UsuarioLogin usuarioLogin;
 
-
+    @ManyToOne
+    @JoinColumn(name = "fk_motorista_id")
+    private Motorista motorista;
 }
