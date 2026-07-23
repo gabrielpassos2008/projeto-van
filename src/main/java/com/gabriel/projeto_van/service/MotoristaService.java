@@ -46,4 +46,9 @@ public class MotoristaService {
 
         return new MotoristaResponseDTO(salvo.getId(), salvo.getEmail(), salvo.getNome());
     }
+
+    public Motorista retornarMotoristaEmail(String email){
+        return motoristaRepository.findByEmail(email).orElseThrow();
+    }
+
 }
