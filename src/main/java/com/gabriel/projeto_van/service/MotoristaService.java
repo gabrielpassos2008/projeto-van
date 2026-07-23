@@ -7,8 +7,6 @@ import com.gabriel.projeto_van.model.Motorista;
 import com.gabriel.projeto_van.model.UsuarioLogin;
 import com.gabriel.projeto_van.repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,16 +24,21 @@ public class MotoristaService {
 
     public MotoristaResponseDTO registrar (MotoristaCreateDTO dto){
         Motorista motorista = new Motorista();
-
+        //verificando o Usuario do token
         String email = usuarioLoginService.retornarUsuarioPeloEmailDaAuntenticacao();
+        // retornando o usuario pelo email
         Administrador administrador = administradorService.retornarPeloEmail(email);
 
+        // criando o usuario do login
         UsuarioLogin usuarioLogin = usuarioLoginService.registrar(dto.email(), dto.senha(), dto.role());
-        motorista.setNome(dto.nome());
-        motorista.setTelefone(dto.telefone());
 
+
+        // criando o Objeto para salvar na banco
         motorista.setEmail(usuarioLogin.getEmail());
         motorista.setSenha(usuarioLogin.getSenha());
+        motorista.setNome(dto.nome());
+        motorista.setTelefone(dto.telefone());
+        // adcionando a as FK
         motorista.setUsuarioLogin(usuarioLogin);
         motorista.setAdministrador(administrador);
 
