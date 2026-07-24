@@ -30,11 +30,4 @@ public class UsuarioLoginService {
         return repository.save(usuarioNovo);
     }
 
-    public String retornarUsuarioPeloEmailDaAuntenticacao(){
-        Authentication authentication =
-                        SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
-        return authentication.getName();
-    }
 }
