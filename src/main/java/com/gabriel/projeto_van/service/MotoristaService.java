@@ -21,11 +21,14 @@ public class MotoristaService {
     @Autowired
     private AdministradorService administradorService;
 
+    @Autowired
+    private TokenService tokenService;
+
 
     public MotoristaResponseDTO registrar (MotoristaCreateDTO dto){
         Motorista motorista = new Motorista();
         //verificando o Usuario do token
-        String email = usuarioLoginService.retornarUsuarioPeloEmailDaAuntenticacao();
+        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
         // retornando o usuario pelo email
         Administrador administrador = administradorService.retornarPeloEmail(email);
 

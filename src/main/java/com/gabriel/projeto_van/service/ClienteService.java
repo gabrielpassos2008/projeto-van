@@ -21,11 +21,14 @@ public class ClienteService {
     @Autowired
     private MotoristaService motoristaService;
 
+    @Autowired
+    private TokenService tokenService;
+
 
     public ClienteReponseDTO registrar (ClienteCreateDTO dto){
         Cliente cliente = new Cliente();
 
-        String email = usuarioLoginService.retornarUsuarioPeloEmailDaAuntenticacao();
+        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
         Motorista motorista = motoristaService.retornarMotoristaEmail(email);
 
 
