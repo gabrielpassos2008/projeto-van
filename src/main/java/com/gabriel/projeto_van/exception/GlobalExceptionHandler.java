@@ -3,14 +3,18 @@ package com.gabriel.projeto_van.exception;
 import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.TokenInvalidoException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.Objects;
+
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
 
     @ExceptionHandler(EmailJaExistenteException.class)
     public ResponseEntity<MensagemErroDTO> emailJaExistente(EmailJaExistenteException exception){
@@ -35,4 +39,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(erro);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<MensagemErroDTO> tratarValidacao(ConstraintViolationException exception){
+        String mensagem = exception.getConstraintViolations()
+                .iterator()
+                .next()
+                .getMessage();
+
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.BAD_REQUEST.value(),
+                mensagem,
+                HttpStatus.BAD_REQUEST.name());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(erro);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
