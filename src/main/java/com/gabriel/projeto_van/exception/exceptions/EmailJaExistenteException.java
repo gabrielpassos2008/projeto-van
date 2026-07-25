@@ -6,6 +6,6 @@ public class EmailJaExistenteException extends RuntimeException {
     }
 
     public EmailJaExistenteException(){
-        super("Email ja existente no sistema, crie com outro email");
+        super("Este e-mail já está cadastrado. Informe outro endereço de e-mail.");
     }
 }
