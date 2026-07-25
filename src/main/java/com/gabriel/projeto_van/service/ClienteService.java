@@ -2,6 +2,7 @@ package com.gabriel.projeto_van.service;
 
 import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
+import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Motorista;
 import com.gabriel.projeto_van.model.UsuarioLogin;
@@ -26,6 +27,10 @@ public class ClienteService {
 
 
     public ClienteReponseDTO registrar (ClienteCreateDTO dto){
+        if (clienteRepository.existsByEmail(dto.email())){
+            throw new EmailJaExistenteException("Este e-mail já está cadastrado. Informe outro endereço de e-mail.");
+        }
+
         Cliente cliente = new Cliente();
 
         String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
