@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface MotoristaRepository extends JpaRepository<Motorista ,Long> {
 
     Optional<Motorista> findByEmail(String email);
-
+    boolean existsByEmail(String email);
 }
