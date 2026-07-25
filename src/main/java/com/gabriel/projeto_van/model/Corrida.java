@@ -1,6 +1,7 @@
 package com.gabriel.projeto_van.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,9 @@ public class Corrida {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
+    @NotBlank(message = "turno é obrigatório")
     private String turno;
 
     @ManyToOne

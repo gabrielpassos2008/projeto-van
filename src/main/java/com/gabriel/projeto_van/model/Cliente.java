@@ -1,6 +1,7 @@
 package com.gabriel.projeto_van.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,13 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
+    @NotBlank(message = "Email é obrigatório")
     private String email;
+    @NotBlank(message = "Senha é obrigatório")
     private String senha;
+    @NotBlank(message = "Telefone é obrigatório")
     private String telefone;
 
     @ManyToOne

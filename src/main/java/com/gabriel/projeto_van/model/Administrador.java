@@ -1,5 +1,6 @@
 package com.gabriel.projeto_van.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,9 @@ public class Administrador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Email é obrigatório")
     private String email;
+    @NotBlank(message = "Senha é obrigatório")
     private String senha;
 
     @ManyToOne
