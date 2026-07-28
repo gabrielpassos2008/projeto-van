@@ -3,17 +3,18 @@ package com.gabriel.projeto_van.exception;
 import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.TokenInvalidoException;
-import jakarta.validation.ConstraintViolationException;
+import org.jspecify.annotations.Nullable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.Objects;
-
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
 
     @ExceptionHandler(EmailJaExistenteException.class)
@@ -40,38 +41,21 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
                 .body(erro);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<MensagemErroDTO> tratarValidacao(ConstraintViolationException exception){
-        String mensagem = exception.getConstraintViolations()
-                .iterator()
-                .next()
-                .getMessage();
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
+                                                                            HttpHeaders headers,
+                                                                            HttpStatusCode statusCode,
+                                                                            WebRequest request) {
+        String mensagem = exception
+                .getBindingResult()
+                .getFieldError()
+                .getDefaultMessage();
 
         MensagemErroDTO erro = new MensagemErroDTO(
-                HttpStatus.BAD_REQUEST.value(),
+                statusCode.value(),
                 mensagem,
-                HttpStatus.BAD_REQUEST.name());
+                statusCode.toString());
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(erro);
+        return ResponseEntity.status(statusCode).body(erro);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
