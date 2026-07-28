@@ -16,13 +16,9 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Nome é obrigatório")
     private String nome;
-    @NotBlank(message = "Email é obrigatório")
     private String email;
-    @NotBlank(message = "Senha é obrigatório")
     private String senha;
-    @NotBlank(message = "Telefone é obrigatório")
     private String telefone;
 
     @ManyToOne

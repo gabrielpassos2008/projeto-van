@@ -17,9 +17,9 @@ public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Nome é obrigatório")
+
     private String nome;
-    @NotBlank(message = "Capacidade é obrigatório")
+
     private int capacidade;
 
     @ManyToOne
