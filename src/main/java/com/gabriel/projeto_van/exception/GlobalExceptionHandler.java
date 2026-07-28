@@ -3,6 +3,7 @@ package com.gabriel.projeto_van.exception;
 import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.TokenInvalidoException;
+import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,17 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(erro);
+    }
+
+    @ExceptionHandler(UsuarioNaoEncontradoException.class)
+    public ResponseEntity<MensagemErroDTO> usuarioNaoEncontrado(UsuarioNaoEncontradoException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.NO_CONTENT.value(),
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND.name());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(erro);
     }
 
