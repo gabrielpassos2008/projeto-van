@@ -4,7 +4,6 @@ import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.TokenInvalidoException;
 import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
-import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -54,20 +53,31 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
-                                                                            HttpHeaders headers,
-                                                                            HttpStatusCode statusCode,
-                                                                            WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException exception, // Exceção lançada quando o @Valid encontra erros no DTO
+            HttpHeaders headers, // Cabeçalhos HTTP da requisição
+            HttpStatusCode statusCode, // Código HTTP que o Spring definiu (normalmente 400 BAD_REQUEST)
+            WebRequest request // Informações da requisição atual
+    ) {
+
+        // Pega o erro de validação que aconteceu no campo do DTO
+        // getBindingResult() contém todos os erros encontrados pelo @Valid
+        // getFieldError() pega somente o primeiro erro encontrado
+        // getDefaultMessage() pega a mensagem que você colocou no @NotBlank, @Size, etc.
         String mensagem = exception
                 .getBindingResult()
                 .getFieldError()
                 .getDefaultMessage();
 
-        MensagemErroDTO erro = new MensagemErroDTO(
-                statusCode.value(),
-                mensagem,
-                statusCode.toString());
 
-        return ResponseEntity.status(statusCode).body(erro);
+        MensagemErroDTO erro = new MensagemErroDTO(
+                statusCode.value(), // Pega o número do status HTTP (400)
+                mensagem, // Mensagem do @NotBlank, @Size...
+                statusCode.toString() // Nome do status (BAD_REQUEST)
+        );
+
+        return ResponseEntity
+                .status(statusCode)
+                .body(erro);
     }
 }
