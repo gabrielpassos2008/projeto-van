@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import tools.jackson.databind.ObjectMapper;
@@ -34,7 +35,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         try {
             if (token != null){ // verifica se e null
                 String email = tokenService.validarToken(token); // retorna o email que esta no token
-                UserDetails usuario = usuarioLoginRepository.findByEmail(email); //verificando o usuario no banco
+                UserDetails usuario = usuarioLoginRepository.findByEmail(email).orElseThrow(() ->
+                        new UsernameNotFoundException("Usuário não encontrado")); //verificando o usuario no banco
 
                 UsernamePasswordAuthenticationToken autenticacao = new UsernamePasswordAuthenticationToken(usuario,null,usuario.getAuthorities()); // criando a autenticacao
                 SecurityContextHolder.getContext().setAuthentication(autenticacao); // registrando o login do usuario
