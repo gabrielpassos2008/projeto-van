@@ -8,7 +8,7 @@ public record ClienteCreateDTO(
         String nome,
         @NotBlank(message = "Email é obrigatório")
         String email,
-        @NotBlank(message = "senha é obrigatório")
+        @NotBlank(message = "Senha é obrigatório")
         String senha,
         @NotBlank(message = "Nome é obrigatório")
         String telefone,
