@@ -51,6 +51,6 @@ public class ClienteService {
         cliente.setUsuarioLogin(usuarioLogin);
 
         this.clienteRepository.save(cliente);
-        return new ClienteReponseDTO(cliente.getId(), cliente.getEmail(), cliente.getNome());
+        return new ClienteReponseDTO(cliente.getId(), cliente.getNome(), cliente.getEmail());
     }
 }

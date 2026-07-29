@@ -53,11 +53,11 @@ public class MotoristaService {
 
         Motorista salvo = motoristaRepository.save(motorista);
 
-        return new MotoristaResponseDTO(salvo.getId(), salvo.getEmail(), salvo.getNome());
+        return new MotoristaResponseDTO(salvo.getId(),salvo.getNome(), salvo.getEmail());
     }
 
     public Motorista retornarMotoristaEmail(String email){
-        return motoristaRepository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado"));
+        return motoristaRepository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
     }
 
 }
