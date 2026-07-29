@@ -6,6 +6,7 @@ import com.gabriel.projeto_van.dto.auth.LoginResponseDTO;
 import com.gabriel.projeto_van.model.UsuarioLogin;
 import com.gabriel.projeto_van.service.AuthorizationService;
 import com.gabriel.projeto_van.service.TokenService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> postLogin (@RequestBody AutenticacaoDTO dto){
+    public ResponseEntity<?> postLogin (@RequestBody @Valid AutenticacaoDTO dto){
         UsernamePasswordAuthenticationToken usuarioEmailSenha = new UsernamePasswordAuthenticationToken(dto.email(),dto.senha());
         var auth = this.authenticationManager.authenticate(usuarioEmailSenha);
         String token = tokenService.gerarToken((UsuarioLogin) auth.getPrincipal());
