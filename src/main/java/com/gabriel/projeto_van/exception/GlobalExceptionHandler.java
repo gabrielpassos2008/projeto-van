@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -80,4 +81,23 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
                 .status(statusCode)
                 .body(erro);
     }
+
+    //                Exceção de credenciais inválidas
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<MensagemErroDTO> loginInvalido(BadCredentialsException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Email ou senha inválidos",
+                HttpStatus.UNAUTHORIZED.name());
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(erro);
+    }
+
+
+
+
+
+
 }
