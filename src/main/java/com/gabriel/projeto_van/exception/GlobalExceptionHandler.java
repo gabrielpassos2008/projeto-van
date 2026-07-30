@@ -1,6 +1,7 @@
 package com.gabriel.projeto_van.exception;
 
 import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
+import com.gabriel.projeto_van.exception.exceptions.CorridaJaCadastradaException;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.TokenInvalidoException;
 import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
@@ -53,9 +54,21 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
                 .body(erro);
     }
 
+
+    @ExceptionHandler(CorridaJaCadastradaException.class)
+    public  ResponseEntity<MensagemErroDTO> corridaNaoEncontrada(CorridaJaCadastradaException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage(),
+                HttpStatus.CONFLICT.name());
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
+
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException exception, // Exceção lançada quando o @Valid encontra erros no DTO
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, // Exceção lançada quando o @Valid encontra erros no DTO
             HttpHeaders headers, // Cabeçalhos HTTP da requisição
             HttpStatusCode statusCode, // Código HTTP que o Spring definiu (normalmente 400 BAD_REQUEST)
             WebRequest request // Informações da requisição atual
@@ -94,10 +107,4 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(erro);
     }
-
-
-
-
-
-
 }
