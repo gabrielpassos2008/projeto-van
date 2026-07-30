@@ -1,7 +1,5 @@
 package com.gabriel.projeto_van.service;
 
-import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
-import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
@@ -19,9 +17,6 @@ public class MotoristaService {
 
     @Autowired
     private MotoristaRepository motoristaRepository;
-
-    @Autowired
-    private CorridaRepository corridaRepository;
 
     @Autowired
     private UsuarioLoginService usuarioLoginService;
@@ -53,7 +48,7 @@ public class MotoristaService {
         motorista.setSenha(usuarioLogin.getSenha());
         motorista.setNome(dto.nome());
         motorista.setTelefone(dto.telefone());
-        // adcionando a as FK
+        // adcionando as FK
         motorista.setUsuarioLogin(usuarioLogin);
         motorista.setAdministrador(administrador);
 
@@ -66,10 +61,5 @@ public class MotoristaService {
         return motoristaRepository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
     }
 
-    public boolean validarNomeCorrida(CorridaCreateDTO dto){
-        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
-        Motorista motorista = retornarMotoristaEmail(email);
-        return corridaRepository.existsByNomeAndMotorista(dto.nome(),motorista);
-    }
 
 }
