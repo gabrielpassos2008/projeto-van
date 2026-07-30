@@ -1,5 +1,7 @@
 package com.gabriel.projeto_van.service;
 
+import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
+import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
@@ -7,6 +9,7 @@ import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoExceptio
 import com.gabriel.projeto_van.model.Administrador;
 import com.gabriel.projeto_van.model.Motorista;
 import com.gabriel.projeto_van.model.UsuarioLogin;
+import com.gabriel.projeto_van.repository.CorridaRepository;
 import com.gabriel.projeto_van.repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,9 @@ public class MotoristaService {
 
     @Autowired
     private MotoristaRepository motoristaRepository;
+
+    @Autowired
+    private CorridaRepository corridaRepository;
 
     @Autowired
     private UsuarioLoginService usuarioLoginService;
@@ -58,6 +64,12 @@ public class MotoristaService {
 
     public Motorista retornarMotoristaEmail(String email){
         return motoristaRepository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
+    }
+
+    public boolean validarNomeCorrida(CorridaCreateDTO dto){
+        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
+        Motorista motorista = retornarMotoristaEmail(email);
+        return corridaRepository.existsByNomeAndMotorista(dto.nome(),motorista);
     }
 
 }
