@@ -2,9 +2,12 @@ package com.gabriel.projeto_van.controller;
 
 import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
+import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
+import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
 import com.gabriel.projeto_van.service.ClienteService;
+import com.gabriel.projeto_van.service.CorridaService;
 import com.gabriel.projeto_van.service.MotoristaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,8 @@ public class MotoristaController {
     @Autowired
     private ClienteService clienteService;
 
-
+    @Autowired
+    private CorridaService corridaService;
 
     @PostMapping("/registrarCLiente")
     public ResponseEntity<ClienteReponseDTO> postRegistrar(@RequestBody @Valid ClienteCreateDTO dto){
@@ -31,5 +35,13 @@ public class MotoristaController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(clienteReponseDTO);
+    }
+    @PostMapping("/registrarCorrida")
+    public ResponseEntity<CorridaResponseDTO> postRegistrarCorrida(@RequestBody @Valid CorridaCreateDTO dto){
+        CorridaResponseDTO corridaResponseDTO = corridaService.registrarCorrida(dto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(corridaResponseDTO);
     }
 }
