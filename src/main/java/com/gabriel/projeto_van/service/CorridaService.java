@@ -9,6 +9,8 @@ import com.gabriel.projeto_van.repository.CorridaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CorridaService {
     @Autowired
@@ -42,6 +44,18 @@ public class CorridaService {
         Motorista motorista = motoristaService.retornarMotoristaEmail(email);
         if(corridaRepository.existsByNomeAndMotorista(dto.nome(),motorista)){
             throw new CorridaJaCadastradaException();
-        };
+        }
+    }
+    public List<CorridaResponseDTO> listarCorrida(){
+        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
+        Motorista motorista = motoristaService.retornarMotoristaEmail(email);
+
+        return corridaRepository.findByMotorista(motorista)
+                .stream()//percorre todos os objetos Corrida da lista
+                .map(corrida -> new CorridaResponseDTO(
+                        corrida.getId(),
+                        corrida.getNome(),
+                        corrida.getTurno()))
+                .toList();// justa todos os DTOs numa nova lista
     }
 }
