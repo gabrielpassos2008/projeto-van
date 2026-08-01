@@ -49,6 +49,13 @@ public class MotoristaController {
                 .status(HttpStatus.OK)
                 .body(lista);
     }
+    @GetMapping("listarCliente")
+    public ResponseEntity<List<ClienteReponseDTO>> getListarCliente(){
+        List<ClienteReponseDTO> lista = clienteService.listarCliente();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
+    }
 
     @GetMapping("/pesquisarCorrida")
     public ResponseEntity<List<CorridaResponseDTO>> getListarCorridaPorNome(@RequestBody @Valid CorridaPesquisaDTO dto){
