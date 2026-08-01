@@ -69,4 +69,15 @@ public class ClienteService {
                 .toList();
     }
 
+    public List<ClienteReponseDTO> listarCorridaPorNome(String pesquisa){
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
+        return clienteRepository.findByMotoristaAndNomeContainingIgnoreCase(motorista,pesquisa)
+                .stream()
+                .map(cliente -> new ClienteReponseDTO(
+                        cliente.getId(),
+                        cliente.getNome(),
+                        cliente.getEmail()))
+                .toList();
+    }
+
 }
