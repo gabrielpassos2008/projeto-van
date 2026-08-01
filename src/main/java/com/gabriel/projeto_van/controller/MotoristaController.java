@@ -4,19 +4,15 @@ import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
-import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
-import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
 import com.gabriel.projeto_van.service.ClienteService;
 import com.gabriel.projeto_van.service.CorridaService;
-import com.gabriel.projeto_van.service.MotoristaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/motorista")
@@ -43,5 +39,13 @@ public class MotoristaController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(corridaResponseDTO);
+    }
+
+    @GetMapping("/listarCorrida")
+    public ResponseEntity<List<CorridaResponseDTO>> getListarCorrida(){
+        List<CorridaResponseDTO> lista = corridaService.listarCorrida();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
     }
 }
