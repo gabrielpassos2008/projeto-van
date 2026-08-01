@@ -3,7 +3,7 @@ package com.gabriel.projeto_van.controller;
 import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
-import com.gabriel.projeto_van.dto.corrida.CorridaPesquisaDTO;
+import com.gabriel.projeto_van.dto.barraPesquisa.PesquisaDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.service.ClienteService;
 import com.gabriel.projeto_van.service.CorridaService;
@@ -25,7 +25,7 @@ public class MotoristaController {
     @Autowired
     private CorridaService corridaService;
 
-    @PostMapping("/registrar/cLiente")
+    @PostMapping("/registrar/cliente")
     public ResponseEntity<ClienteReponseDTO> postRegistrar(@RequestBody @Valid ClienteCreateDTO dto){
         ClienteReponseDTO clienteReponseDTO= clienteService.registrar(dto);
 
@@ -58,9 +58,17 @@ public class MotoristaController {
     }
 
     @GetMapping("/pesquisar/corrida")
-    public ResponseEntity<List<CorridaResponseDTO>> getListarCorridaPorNome(@RequestBody @Valid CorridaPesquisaDTO dto){
+    public ResponseEntity<List<CorridaResponseDTO>> getPesquisarCorridaPorNome(@RequestBody @Valid PesquisaDTO dto){
         List<CorridaResponseDTO> lista = corridaService.listarCorridaPorNome(dto.pesquisa());
 
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
+    }
+
+    @GetMapping("/pesquisar/cliente")
+    public ResponseEntity<List<ClienteReponseDTO>> getPesquisarClientePorNome(@RequestBody @Valid PesquisaDTO dto){
+        List<ClienteReponseDTO> lista = clienteService.listarCorridaPorNome(dto.pesquisa());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
