@@ -2,6 +2,7 @@ package com.gabriel.projeto_van.service;
 
 import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
+import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Motorista;
@@ -9,6 +10,8 @@ import com.gabriel.projeto_van.model.UsuarioLogin;
 import com.gabriel.projeto_van.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClienteService {
@@ -53,4 +56,17 @@ public class ClienteService {
         this.clienteRepository.save(cliente);
         return new ClienteReponseDTO(cliente.getId(), cliente.getNome(), cliente.getEmail());
     }
+
+    public List<ClienteReponseDTO> listarCliente(){
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
+
+        return clienteRepository.findByMotorista(motorista)
+                .stream()
+                .map(cliente -> new ClienteReponseDTO(
+                        cliente.getId(),
+                        cliente.getNome(),
+                        cliente.getEmail()))
+                .toList();
+    }
+
 }
