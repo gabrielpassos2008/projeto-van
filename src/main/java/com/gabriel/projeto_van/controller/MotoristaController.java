@@ -3,6 +3,7 @@ package com.gabriel.projeto_van.controller;
 import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
+import com.gabriel.projeto_van.dto.corrida.CorridaPesquisaDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.service.ClienteService;
 import com.gabriel.projeto_van.service.CorridaService;
@@ -44,6 +45,15 @@ public class MotoristaController {
     @GetMapping("/listarCorrida")
     public ResponseEntity<List<CorridaResponseDTO>> getListarCorrida(){
         List<CorridaResponseDTO> lista = corridaService.listarCorrida();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(lista);
+    }
+
+    @GetMapping("/pesquisarCorrida")
+    public ResponseEntity<List<CorridaResponseDTO>> getListarCorridaPorNome(@RequestBody @Valid CorridaPesquisaDTO dto){
+        List<CorridaResponseDTO> lista = corridaService.listarCorridaPorNome(dto.pesquisa());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
