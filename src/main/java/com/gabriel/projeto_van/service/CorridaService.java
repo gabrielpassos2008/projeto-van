@@ -25,8 +25,7 @@ public class CorridaService {
     public CorridaResponseDTO registrarCorrida(CorridaCreateDTO dto){
         this.validarNomeCorrida(dto);
 
-        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
-        Motorista motorista = motoristaService.retornarMotoristaEmail(email);
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
 
         Corrida corrida = new Corrida();
 
@@ -40,15 +39,14 @@ public class CorridaService {
     }
 
     public void validarNomeCorrida(CorridaCreateDTO dto){
-        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
-        Motorista motorista = motoristaService.retornarMotoristaEmail(email);
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
         if(corridaRepository.existsByNomeAndMotorista(dto.nome(),motorista)){
             throw new CorridaJaCadastradaException();
         }
     }
+
     public List<CorridaResponseDTO> listarCorrida(){
-        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
-        Motorista motorista = motoristaService.retornarMotoristaEmail(email);
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
 
         return corridaRepository.findByMotorista(motorista)
                 .stream()//percorre todos os objetos Corrida da lista
@@ -58,4 +56,34 @@ public class CorridaService {
                         corrida.getTurno()))
                 .toList();// justa todos os DTOs numa nova lista
     }
+
+    public List<CorridaResponseDTO> listarCorridaPorNome(String pesquisa){
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
+        return corridaRepository.findByMotoristaAndNomeContainingIgnoreCase(motorista,pesquisa)
+                .stream()
+                .map(corrida -> new CorridaResponseDTO(
+                        corrida.getId(),
+                        corrida.getNome(),
+                        corrida.getTurno()))
+                .toList();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
