@@ -1,8 +1,8 @@
-package com.gabriel.projeto_van.dto.corrida;
+package com.gabriel.projeto_van.dto.barraPesquisa;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record CorridaPesquisaDTO(
+public record PesquisaDTO(
         @NotBlank(message = "Informe um nome para pesquisar")
         String pesquisa
 ) {
