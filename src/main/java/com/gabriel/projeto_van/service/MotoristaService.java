@@ -7,7 +7,6 @@ import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoExceptio
 import com.gabriel.projeto_van.model.Administrador;
 import com.gabriel.projeto_van.model.Motorista;
 import com.gabriel.projeto_van.model.UsuarioLogin;
-import com.gabriel.projeto_van.repository.CorridaRepository;
 import com.gabriel.projeto_van.repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class MotoristaService {
         motorista.setSenha(usuarioLogin.getSenha());
         motorista.setNome(dto.nome());
         motorista.setTelefone(dto.telefone());
-        // adcionando as FK
+        // adicionando as FK
         motorista.setUsuarioLogin(usuarioLogin);
         motorista.setAdministrador(administrador);
 
