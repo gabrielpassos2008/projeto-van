@@ -25,7 +25,7 @@ public class MotoristaController {
     @Autowired
     private CorridaService corridaService;
 
-    @PostMapping("/registrarCLiente")
+    @PostMapping("/registrar/cLiente")
     public ResponseEntity<ClienteReponseDTO> postRegistrar(@RequestBody @Valid ClienteCreateDTO dto){
         ClienteReponseDTO clienteReponseDTO= clienteService.registrar(dto);
 
@@ -33,7 +33,7 @@ public class MotoristaController {
                 .status(HttpStatus.CREATED)
                 .body(clienteReponseDTO);
     }
-    @PostMapping("/registrarCorrida")
+    @PostMapping("/registrar/corrida")
     public ResponseEntity<CorridaResponseDTO> postRegistrarCorrida(@RequestBody @Valid CorridaCreateDTO dto){
         CorridaResponseDTO corridaResponseDTO = corridaService.registrarCorrida(dto);
 
@@ -42,14 +42,14 @@ public class MotoristaController {
                 .body(corridaResponseDTO);
     }
 
-    @GetMapping("/listarCorrida")
+    @GetMapping("/listar/corrida")
     public ResponseEntity<List<CorridaResponseDTO>> getListarCorrida(){
         List<CorridaResponseDTO> lista = corridaService.listarCorrida();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
     }
-    @GetMapping("listarCliente")
+    @GetMapping("listar/cliente")
     public ResponseEntity<List<ClienteReponseDTO>> getListarCliente(){
         List<ClienteReponseDTO> lista = clienteService.listarCliente();
         return ResponseEntity
@@ -57,7 +57,7 @@ public class MotoristaController {
                 .body(lista);
     }
 
-    @GetMapping("/pesquisarCorrida")
+    @GetMapping("/pesquisar/corrida")
     public ResponseEntity<List<CorridaResponseDTO>> getListarCorridaPorNome(@RequestBody @Valid CorridaPesquisaDTO dto){
         List<CorridaResponseDTO> lista = corridaService.listarCorridaPorNome(dto.pesquisa());
 

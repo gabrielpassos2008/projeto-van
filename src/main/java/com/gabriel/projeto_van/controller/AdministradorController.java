@@ -35,7 +35,7 @@ public class AdministradorController {
                 .body(administradorResponseDTO);
     }
 
-    @PostMapping("/registrarMotorista")
+    @PostMapping("/registrar/motorista")
     public ResponseEntity<MotoristaResponseDTO> postRegistrar(@RequestBody @Valid MotoristaCreateDTO dto){
         MotoristaResponseDTO motoristaResponseDTO = motoristaService.registrar(dto);
 
