@@ -2,6 +2,7 @@ package com.gabriel.projeto_van.controller;
 
 import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
+import com.gabriel.projeto_van.dto.corrida.AdicionarClienteCorridaDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
 import com.gabriel.projeto_van.dto.barraPesquisa.PesquisaDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
@@ -40,6 +41,14 @@ public class MotoristaController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(corridaResponseDTO);
+    }
+    @PostMapping("/registrar/corrida/cliente")
+    public ResponseEntity<String> PostResgistrarClienteNaCorrida(@RequestBody AdicionarClienteCorridaDTO dto){
+        String mensagem = corridaService.adicionarClienteNaCorrida( dto.corridaId(), dto.clienteId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(mensagem);
     }
 
     @GetMapping("/listar/corrida")
