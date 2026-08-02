@@ -1,10 +1,7 @@
 package com.gabriel.projeto_van.exception;
 
 import com.gabriel.projeto_van.dto.Exception.MensagemErroDTO;
-import com.gabriel.projeto_van.exception.exceptions.CorridaJaCadastradaException;
-import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
-import com.gabriel.projeto_van.exception.exceptions.TokenInvalidoException;
-import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
+import com.gabriel.projeto_van.exception.exceptions.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -105,6 +102,30 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(erro);
+    }
+
+    @ExceptionHandler(CorridaNaoEncontradaException.class)
+    public ResponseEntity<MensagemErroDTO> corridaNaoEncontrada(CorridaNaoEncontradaException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND.name());
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(erro);
+    }
+
+    @ExceptionHandler(ClienteNaoPertenceAoMotoristaException.class)
+    public ResponseEntity<MensagemErroDTO> corridaNaopertenceAoMotorista(ClienteNaoPertenceAoMotoristaException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.FORBIDDEN.value(),
+                exception.getMessage(),
+                HttpStatus.FORBIDDEN.name());
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
                 .body(erro);
     }
 }
