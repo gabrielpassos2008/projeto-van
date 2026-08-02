@@ -1,0 +1,28 @@
+[
+  {
+    "email":"adm@gmail.com",
+    "senha": "123",
+    "role":"ROLE_ADMIN"
+  }
+    ,
+  {
+    "nome": "motorista",
+    "email" : "motorista@gmail.com",
+    "senha" : "123",
+    "role" :"ROLE_MOTORISTA",
+    "telefone" : "2807"
+  }
+  ,
+  {
+    "nome": "cliente",
+    "email": "cliente@gmail.com",
+    "senha": "123",
+    "telefone": "1234",
+    "role": "ROLE_CLIENTE"
+  }
+  ,
+  {
+    "nome":"corrida zona norte",
+    "turno":"manha"
+  }
+]
