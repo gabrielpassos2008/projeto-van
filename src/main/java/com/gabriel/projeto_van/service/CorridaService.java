@@ -79,7 +79,7 @@ public class CorridaService {
         Corrida corrida = corridaRepository.findById(corridaId).orElseThrow(CorridaNaoEncontradaException::new);
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(UsuarioNaoEncontradoException::new);
 
-        if (cliente.getCorridas().contains(corrida)){
+        if (!cliente.getCorridas().contains(corrida)){
             throw new ClienteNaoPertenceAoMotoristaException();
         }
 
