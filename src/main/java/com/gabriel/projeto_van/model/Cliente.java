@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +30,7 @@ public class Cliente {
     @ManyToOne
     @JoinColumn(name = "fk_motorista_id")
     private Motorista motorista;
+
+    @ManyToMany
+    private List<Corrida> corridas = new ArrayList<>();
 }
