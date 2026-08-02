@@ -2,9 +2,14 @@ package com.gabriel.projeto_van.service;
 
 import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
+import com.gabriel.projeto_van.exception.exceptions.ClienteNaoPertenceAoMotoristaException;
 import com.gabriel.projeto_van.exception.exceptions.CorridaJaCadastradaException;
+import com.gabriel.projeto_van.exception.exceptions.CorridaNaoEncontradaException;
+import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
+import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
 import com.gabriel.projeto_van.model.Motorista;
+import com.gabriel.projeto_van.repository.ClienteRepository;
 import com.gabriel.projeto_van.repository.CorridaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,9 @@ public class CorridaService {
 
     @Autowired
     private CorridaRepository corridaRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     public CorridaResponseDTO registrarCorrida(CorridaCreateDTO dto){
         this.validarNomeCorrida(dto);
@@ -66,6 +74,24 @@ public class CorridaService {
                         corrida.getNome(),
                         corrida.getTurno()))
                 .toList();
+    }
+    public String adicionarClienteNaCorrida(Long corridaId, long clienteId){
+        Corrida corrida = corridaRepository.findById(corridaId).orElseThrow(CorridaNaoEncontradaException::new);
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(UsuarioNaoEncontradoException::new);
+
+        if (cliente.getCorridas().contains(corrida)){
+            throw new ClienteNaoPertenceAoMotoristaException();
+        }
+
+        // adiciona a lista de corrida do cliente
+        cliente.getCorridas().add(corrida);
+        // também adiciona o cliente a lista de corrida
+        corrida.getClientes().add(cliente);
+
+        this.clienteRepository.save(cliente);
+
+
+        return "Cliente adicionado à corrida com sucesso!";
     }
 
 
