@@ -2,10 +2,7 @@ package com.gabriel.projeto_van.service;
 
 import com.gabriel.projeto_van.dto.corrida.CorridaCreateDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
-import com.gabriel.projeto_van.exception.exceptions.ClienteNaoPertenceAoMotoristaException;
-import com.gabriel.projeto_van.exception.exceptions.CorridaJaCadastradaException;
-import com.gabriel.projeto_van.exception.exceptions.CorridaNaoEncontradaException;
-import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
+import com.gabriel.projeto_van.exception.exceptions.*;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
 import com.gabriel.projeto_van.model.Motorista;
@@ -78,9 +75,12 @@ public class CorridaService {
     public String adicionarClienteNaCorrida(Long corridaId, long clienteId){
         Corrida corrida = corridaRepository.findById(corridaId).orElseThrow(CorridaNaoEncontradaException::new);
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(UsuarioNaoEncontradoException::new);
-
-        if (!cliente.getCorridas().contains(corrida)){
+        if (!corrida.getMotorista().equals(cliente.getMotorista())) {
             throw new ClienteNaoPertenceAoMotoristaException();
+        }
+
+        if (cliente.getCorridas().contains(corrida)) {
+            throw new ClienteJaCadastradoNaCorridaException();
         }
 
         // adiciona a lista de corrida do cliente
