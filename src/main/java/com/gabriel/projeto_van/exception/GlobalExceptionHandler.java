@@ -129,7 +129,7 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
                 .body(erro);
     }
 
-    @ExceptionHandler(ClienteNaoPertenceAoMotoristaException.class)
+    @ExceptionHandler(ClienteJaCadastradoNaCorridaException.class)
     public ResponseEntity<MensagemErroDTO> clienteNaoPertenceAoMotorista (ClienteJaCadastradoNaCorridaException exception){
         MensagemErroDTO erro = new MensagemErroDTO(
                 HttpStatus.CONTINUE.value(),
