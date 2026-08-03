@@ -128,4 +128,16 @@ public class GlobalExceptionHandler extends  ResponseEntityExceptionHandler{
                 .status(HttpStatus.FORBIDDEN)
                 .body(erro);
     }
+
+    @ExceptionHandler(ClienteNaoPertenceAoMotoristaException.class)
+    public ResponseEntity<MensagemErroDTO> clienteNaoPertenceAoMotorista (ClienteJaCadastradoNaCorridaException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.CONTINUE.value(),
+                exception.getMessage(),
+                HttpStatus.CONFLICT.name());
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
 }
