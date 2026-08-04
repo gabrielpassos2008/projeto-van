@@ -27,6 +27,10 @@ public class CorridaService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    public Corrida retornarCorridaPorId(Long id){
+        return this.corridaRepository.findById(id).orElseThrow(()-> new CorridaNaoEncontradaException("Corrida não encontrada"));
+    }
+
     public CorridaResponseDTO registrarCorrida(CorridaCreateDTO dto){
         this.validarNomeCorrida(dto);
 
@@ -72,6 +76,7 @@ public class CorridaService {
                         corrida.getTurno()))
                 .toList();
     }
+
     public String adicionarClienteNaCorrida(Long corridaId, long clienteId){
         Corrida corrida = corridaRepository.findById(corridaId).orElseThrow(CorridaNaoEncontradaException::new);
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(UsuarioNaoEncontradoException::new);
