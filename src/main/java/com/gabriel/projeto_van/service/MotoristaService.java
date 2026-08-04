@@ -2,11 +2,10 @@ package com.gabriel.projeto_van.service;
 
 import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
+import com.gabriel.projeto_van.exception.exceptions.ClienteNaoPertenceAoMotoristaException;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
-import com.gabriel.projeto_van.model.Administrador;
-import com.gabriel.projeto_van.model.Motorista;
-import com.gabriel.projeto_van.model.UsuarioLogin;
+import com.gabriel.projeto_van.model.*;
 import com.gabriel.projeto_van.repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +61,12 @@ public class MotoristaService {
 
     public Motorista retornarMotoristaPorId(Long id){
         return motoristaRepository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
+    }
+
+    public void validarSeClientePertenceAoMotorisra(Corrida corrida, Cliente cliente){
+        if (!corrida.getMotorista().equals(cliente.getMotorista())) {
+            throw new ClienteNaoPertenceAoMotoristaException();
+        }
     }
 
     public Motorista retornarMotoristaAutenticado(){
