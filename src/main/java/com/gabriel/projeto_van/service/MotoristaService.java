@@ -60,6 +60,10 @@ public class MotoristaService {
         return motoristaRepository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
     }
 
+    public Motorista retornarMotoristaPorId(Long id){
+        return motoristaRepository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
+    }
+
     public Motorista retornarMotoristaAutenticado(){
         String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
         //verificando o Usuario do token
