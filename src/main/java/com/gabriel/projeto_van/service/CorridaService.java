@@ -80,11 +80,10 @@ public class CorridaService {
     public String adicionarClienteNaCorrida(Long corridaId, long clienteId){
         Corrida corrida = corridaRepository.findById(corridaId).orElseThrow(CorridaNaoEncontradaException::new);
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(UsuarioNaoEncontradoException::new);
-        this.motoristaService.validarSeClientePertenceAoMotorisra(corrida,cliente);
 
-        if (cliente.getCorridas().contains(corrida)) {
-            throw new ClienteJaCadastradoNaCorridaException();
-        }
+        this.motoristaService.validarSeClientePertenceAoMotorisra(corrida,cliente);
+        this.motoristaService.validarSeClienteJaEstaCadastradoNaCorrida(cliente,corrida);
+
 
         // adiciona a lista de corrida do cliente
         cliente.getCorridas().add(corrida);

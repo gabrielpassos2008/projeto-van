@@ -2,6 +2,7 @@ package com.gabriel.projeto_van.service;
 
 import com.gabriel.projeto_van.dto.motorista.MotoristaCreateDTO;
 import com.gabriel.projeto_van.dto.motorista.MotoristaResponseDTO;
+import com.gabriel.projeto_van.exception.exceptions.ClienteJaCadastradoNaCorridaException;
 import com.gabriel.projeto_van.exception.exceptions.ClienteNaoPertenceAoMotoristaException;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
@@ -66,6 +67,12 @@ public class MotoristaService {
     public void validarSeClientePertenceAoMotorisra(Corrida corrida, Cliente cliente){
         if (!corrida.getMotorista().equals(cliente.getMotorista())) {
             throw new ClienteNaoPertenceAoMotoristaException();
+        }
+    }
+
+    public void validarSeClienteJaEstaCadastradoNaCorrida (Cliente cliente, Corrida corrida){
+        if (cliente.getCorridas().contains(corrida)) {
+            throw new ClienteJaCadastradoNaCorridaException();
         }
     }
 
