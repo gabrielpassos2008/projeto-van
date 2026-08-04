@@ -27,6 +27,10 @@ public class Presenca {
     private Motorista motorista;
 
     @ManyToOne
+    @JoinColumn(name = "fk_cliente_id")
+    private Cliente cliente;
+
+    @ManyToOne
     @JoinColumn(name = "fk_corrida_id")
     private Corrida corrida;
 }
