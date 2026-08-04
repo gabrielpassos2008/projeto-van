@@ -4,6 +4,7 @@ import com.gabriel.projeto_van.dto.cliente.ClienteCreateDTO;
 import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
 import com.gabriel.projeto_van.dto.corrida.CorridaResponseDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
+import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Motorista;
 import com.gabriel.projeto_van.model.UsuarioLogin;
@@ -69,7 +70,7 @@ public class ClienteService {
                 .toList();
     }
 
-    public List<ClienteReponseDTO> listarCorridaPorNome(String pesquisa){
+    public List<ClienteReponseDTO> listarCLientePorNome(String pesquisa){
         Motorista motorista = motoristaService.retornarMotoristaAutenticado();
         return clienteRepository.findByMotoristaAndNomeContainingIgnoreCase(motorista,pesquisa)
                 .stream()
@@ -80,4 +81,7 @@ public class ClienteService {
                 .toList();
     }
 
+    public Cliente retornarClientePorId(Long id){
+        return clienteRepository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException("Cliente não encontrada"));
+    }
 }

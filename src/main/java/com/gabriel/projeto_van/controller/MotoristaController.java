@@ -77,7 +77,7 @@ public class MotoristaController {
 
     @GetMapping("/pesquisar/cliente")
     public ResponseEntity<List<ClienteReponseDTO>> getPesquisarClientePorNome(@RequestBody @Valid PesquisaDTO dto){
-        List<ClienteReponseDTO> lista = clienteService.listarCorridaPorNome(dto.pesquisa());
+        List<ClienteReponseDTO> lista = clienteService.listarCLientePorNome(dto.pesquisa());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);
