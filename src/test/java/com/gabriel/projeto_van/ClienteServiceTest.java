@@ -1,5 +1,6 @@
 package com.gabriel.projeto_van;
 
+import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
@@ -74,4 +75,22 @@ public class ClienteServiceTest {
         //Verifique se findByEmail foi realmente chamado com esse email.
         verify(clienteRepository).findByEmail("clienteTeste@gmail.com");
     }
+
+    @Test
+    void validarEmailJaExiste_quandoJaExiste(){
+        when(clienteRepository.existsByEmail("clienteTeste@gmail.com"))
+                .thenReturn(true);
+        assertThrows(EmailJaExistenteException.class,()-> clienteService.validarEmailJaExiste("clienteTeste@gmail.com"));
+        verify(clienteRepository).existsByEmail("clienteTeste@gmail.com");
+    }
+
+    @Test
+    void validarEmailJaExiste_quandoNaoExiste(){
+        when(clienteRepository.existsByEmail("clienteTeste@gmail.com")).thenReturn(false);
+
+        // metodo validarEmailJaExiste retorna void
+        clienteService.validarEmailJaExiste("clienteTeste@gmail.com");
+        verify(clienteRepository).existsByEmail("clienteTeste@gmail.com");
+    }
+
 }
