@@ -29,11 +29,8 @@ public class ClienteService {
     @Autowired
     private TokenService tokenService;
 
-
     public ClienteReponseDTO registrar (ClienteCreateDTO dto){
-        if (clienteRepository.existsByEmail(dto.email())){
-            throw new EmailJaExistenteException("Este e-mail já está cadastrado. Informe outro endereço de e-mail.");
-        }
+        this.validarEmailJaExiste(dto.email());
 
         Cliente cliente = new Cliente();
 
@@ -56,6 +53,12 @@ public class ClienteService {
 
         this.clienteRepository.save(cliente);
         return new ClienteReponseDTO(cliente.getId(), cliente.getNome(), cliente.getEmail());
+    }
+
+    public void validarEmailJaExiste(String email){
+        if (clienteRepository.existsByEmail(email)){
+            throw new EmailJaExistenteException("Este e-mail já está cadastrado. Informe outro endereço de e-mail.");
+        }
     }
 
     public List<ClienteReponseDTO> listarCliente(){
