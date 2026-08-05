@@ -3,6 +3,7 @@ package com.gabriel.projeto_van.service;
 import com.gabriel.projeto_van.dto.administrador.AdministradorCreateDTO;
 import com.gabriel.projeto_van.dto.administrador.AdministradorResponseDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
+import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.projeto_van.model.Administrador;
 import com.gabriel.projeto_van.model.UsuarioLogin;
 import com.gabriel.projeto_van.repository.AdministradorRepository;
@@ -39,7 +40,7 @@ public class AdministradorService {
     }
 
     public Administrador retornarPeloEmail(String email){
-        return this.repository.findByEmail(email).orElseThrow();
+        return this.repository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Administrador não encontrado"));
     }
 
 }

@@ -27,10 +27,6 @@ public class PresencaService {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private CorridaRepository corridaRepository;
-
-    
     public String criarPresensa(PresencaCreateDTO dto){
         // validar se a já existe aquela corrida para o cliente na mesma data e no mesmo dia.
 
