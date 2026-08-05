@@ -1,5 +1,6 @@
 package com.gabriel.projeto_van.service;
 
+import com.gabriel.projeto_van.dto.presenca.PresencaCreateDTO;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
 import com.gabriel.projeto_van.model.Motorista;
@@ -29,22 +30,21 @@ public class PresencaService {
     @Autowired
     private CorridaRepository corridaRepository;
 
-
-
-
-    public String criarPresensa(Long corridaId, Long clienteId){
-        // validar se a ja existe aquela corrida para o cliente na mesma data e no mesmo dia.
+    
+    public String criarPresensa(PresencaCreateDTO dto){
+        // validar se a já existe aquela corrida para o cliente na mesma data e no mesmo dia.
 
         Presenca presenca = new Presenca();
 
-        Corrida corrida = corridaService.retornarCorridaPorId(corridaId);
-        Cliente cliente = clienteService.retornarClientePorId(clienteId);
+        Corrida corrida = corridaService.retornarCorridaPorId(dto.corridaID());
+
+        Cliente cliente = clienteService.retornarClienteAutenticado();
+        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
 
         this.motoristaService.validarSeClientePertenceAoMotorisra(corrida,cliente);
 
-        Motorista motorista = motoristaService.retornarMotoristaAutenticado();
 
-        presenca.setStatus("Vai amanha...");
+        presenca.setStatus(dto.status());
         presenca.setDataHora(LocalDateTime.now());
         presenca.setCliente(cliente);
         presenca.setMotorista(motorista);

@@ -20,7 +20,7 @@ public class ClienteController {
 
     @PostMapping("/registrar/presenca")
     public ResponseEntity<String> postResgistrarPresenca (@RequestBody @Valid PresencaCreateDTO dto){
-        String mensagem = presencaService.criarPresensa(dto.corridaID());
+        String mensagem = presencaService.criarPresensa(dto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

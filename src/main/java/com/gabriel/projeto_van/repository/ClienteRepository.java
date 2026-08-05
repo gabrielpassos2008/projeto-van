@@ -15,6 +15,7 @@ public interface ClienteRepository extends JpaRepository<Cliente,Long> {
     Optional<Cliente> findByEmail(String email);
 
     List<Cliente> findByMotorista(Motorista motorista);
+
     // Containing → busca por parte do nome (não precisa ser igual)
     // IgnoreCase → ignora maiúsculas e minúsculas
     List<Cliente> findByMotoristaAndNomeContainingIgnoreCase(Motorista motorista, String nome);
