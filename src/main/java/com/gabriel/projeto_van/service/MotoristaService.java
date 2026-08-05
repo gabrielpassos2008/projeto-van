@@ -28,9 +28,7 @@ public class MotoristaService {
 
 
     public MotoristaResponseDTO registrar (MotoristaCreateDTO dto){
-        if (motoristaRepository.existsByEmail(dto.email())){
-            throw new EmailJaExistenteException("Este e-mail já está cadastrado. Informe outro endereço de e-mail.");
-        }
+        this.validarEmailJaExiste(dto.email());
 
         Motorista motorista = new Motorista();
         //verificando o Usuario do token
@@ -62,6 +60,11 @@ public class MotoristaService {
 
     public Motorista retornarMotoristaPorId(Long id){
         return motoristaRepository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException("Motorista não encontrado para efetuar o cadastro."));
+    }
+    public void validarEmailJaExiste(String email){
+        if (motoristaRepository.existsByEmail(email)){
+            throw new EmailJaExistenteException("Este e-mail já está cadastrado. Informe outro endereço de e-mail.");
+        }
     }
 
     public void validarSeClientePertenceAoMotorisra(Corrida corrida, Cliente cliente){
