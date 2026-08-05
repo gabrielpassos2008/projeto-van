@@ -84,4 +84,12 @@ public class ClienteService {
     public Cliente retornarClientePorId(Long id){
         return clienteRepository.findById(id).orElseThrow(()-> new UsuarioNaoEncontradoException("Cliente não encontrada"));
     }
+    public Cliente retornarClientePorEmail(String email){
+        return clienteRepository.findByEmail(email).orElseThrow(()-> new UsuarioNaoEncontradoException("Cliente não encontrada"));
+    }
+
+    public Cliente retornarClienteAutenticado(){
+        String email = tokenService.retornarUsuarioPeloEmailDaAuntenticacao();
+        return retornarClientePorEmail(email);
+    }
 }
