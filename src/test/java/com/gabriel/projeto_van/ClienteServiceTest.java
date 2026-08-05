@@ -1,5 +1,6 @@
 package com.gabriel.projeto_van;
 
+import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
 import com.gabriel.projeto_van.model.Motorista;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,11 +52,26 @@ public class ClienteServiceTest {
     }
 
     @Test
-    void validarRetornarClientePorEmail_quandoClienteExiste(){
+    void validarRetornarClientePorEmail_quandoEmailExiste(){
+        //Quando alguém chamar findByEmail com esse email, devolva esse cliente.
         when(clienteRepository.findByEmail("clienteTeste@gmail.com"))
                 .thenReturn(Optional.of(clienteTeste));
 
         Cliente resultado = clienteService.retornarClientePorEmail("clienteTeste@gmail.com");
+        //Compara o valor esperado com o valor do resultado
         assertEquals(clienteTeste, resultado);
+        //Verifique se findByEmail foi realmente chamado com esse email.
+        verify(clienteRepository).findByEmail("clienteTeste@gmail.com");
+    }
+
+    @Test
+    void validarRetornarClientePorEmail_quandoEmailNaoExiste(){
+        //Optional.empty() representa um Objeto vazio
+        when(clienteRepository.findByEmail("clienteTeste@gmail.com")).thenReturn(Optional.empty());
+                                                            // fazendo a pesquisa aqui
+        assertThrows(UsuarioNaoEncontradoException.class, () -> clienteService.retornarClientePorEmail("clienteTeste@gmail.com"));
+
+        //Verifique se findByEmail foi realmente chamado com esse email.
+        verify(clienteRepository).findByEmail("clienteTeste@gmail.com");
     }
 }
