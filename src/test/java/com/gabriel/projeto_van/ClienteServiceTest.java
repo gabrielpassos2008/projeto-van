@@ -1,12 +1,15 @@
 package com.gabriel.projeto_van;
 
+import com.gabriel.projeto_van.dto.cliente.ClienteReponseDTO;
 import com.gabriel.projeto_van.exception.exceptions.EmailJaExistenteException;
 import com.gabriel.projeto_van.exception.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
 import com.gabriel.projeto_van.model.Motorista;
 import com.gabriel.projeto_van.repository.ClienteRepository;
+import com.gabriel.projeto_van.repository.MotoristaRepository;
 import com.gabriel.projeto_van.service.ClienteService;
+import com.gabriel.projeto_van.service.MotoristaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -26,6 +30,9 @@ public class ClienteServiceTest {
     //@Mock para o repository
     @Mock
     private ClienteRepository clienteRepository;
+
+    @Mock
+    private MotoristaService motoristaService;
 
     //@InjectMocks para o service
     @InjectMocks
@@ -91,6 +98,16 @@ public class ClienteServiceTest {
         // metodo validarEmailJaExiste retorna void
         clienteService.validarEmailJaExiste("clienteTeste@gmail.com");
         verify(clienteRepository).existsByEmail("clienteTeste@gmail.com");
+    }
+
+    @Test
+    void validarlistarCLientePorNome_quandoExisteCliente(){
+        when(clienteRepository.findByMotoristaAndNomeContainingIgnoreCase(clienteTeste.getMotorista(),"cliente")).thenReturn(List.of(clienteTeste));
+        when(motoristaService.retornarMotoristaAutenticado())
+                .thenReturn(clienteTeste.getMotorista());
+        List<ClienteReponseDTO> lista = clienteService.listarCLientePorNome("cliente");
+        assertEquals(1, lista.size());
+        verify(clienteRepository).findByMotoristaAndNomeContainingIgnoreCase(clienteTeste.getMotorista(),"cliente");
     }
 
 }
