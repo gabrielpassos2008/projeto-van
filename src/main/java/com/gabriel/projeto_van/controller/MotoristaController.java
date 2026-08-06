@@ -34,6 +34,7 @@ public class MotoristaController {
                 .status(HttpStatus.CREATED)
                 .body(clienteReponseDTO);
     }
+
     @PostMapping("/registrar/corrida")
     public ResponseEntity<CorridaResponseDTO> postRegistrarCorrida(@RequestBody @Valid CorridaCreateDTO dto){
         CorridaResponseDTO corridaResponseDTO = corridaService.registrarCorrida(dto);
@@ -42,6 +43,7 @@ public class MotoristaController {
                 .status(HttpStatus.OK)
                 .body(corridaResponseDTO);
     }
+
     @PostMapping("/registrar/corrida/cliente")
     public ResponseEntity<String> PostResgistrarClienteNaCorrida(@RequestBody AdicionarClienteCorridaDTO dto){
         String mensagem = corridaService.adicionarClienteNaCorrida( dto.corridaId(), dto.clienteId());
@@ -58,6 +60,7 @@ public class MotoristaController {
                 .status(HttpStatus.OK)
                 .body(lista);
     }
+
     @GetMapping("listar/cliente")
     public ResponseEntity<List<ClienteReponseDTO>> getListarCliente(){
         List<ClienteReponseDTO> lista = clienteService.listarCliente();

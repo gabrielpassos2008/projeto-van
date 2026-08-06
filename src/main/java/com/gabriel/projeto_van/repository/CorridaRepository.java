@@ -1,5 +1,6 @@
 package com.gabriel.projeto_van.repository;
 
+import com.gabriel.projeto_van.model.Cliente;
 import com.gabriel.projeto_van.model.Corrida;
 import com.gabriel.projeto_van.model.Motorista;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,6 @@ public interface CorridaRepository extends JpaRepository<Corrida,Long> {
     // Containing → busca por parte do nome (não precisa ser igual)
     // IgnoreCase → ignora maiúsculas e minúsculas
     List<Corrida> findByMotoristaAndNomeContainingIgnoreCase(Motorista motorista,String nome);
+
+    List<Corrida> findByCliente(Cliente cLiente);
 }
