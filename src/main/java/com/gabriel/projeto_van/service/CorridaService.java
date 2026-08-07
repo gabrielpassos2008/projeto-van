@@ -57,6 +57,11 @@ public class CorridaService {
         }
     }
 
+    public void validarSeClienteEstaCorrida(Corrida corrida){
+        Cliente cliente = clienteService.retornarClienteAutenticado();
+        if (corridaRepository.)
+    }
+
     public List<CorridaResponseDTO> listarCorrida(){
         Motorista motorista = motoristaService.retornarMotoristaAutenticado();
 
