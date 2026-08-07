@@ -69,16 +69,16 @@ public class CorridaService {
                 .toList();// justa todos os DTOs numa nova lista
     }
 
- //   public List<CorridaResponseDTO> ListarCorridaPorCliente(Long clienteId){
-   //     Cliente cliente = clienteService.retornarClienteAutenticado();
-   //     return corridaRepository.findByCliente(cliente)
-   //             .stream()
-   //             .map(corrida -> new CorridaResponseDTO(
-  //                      corrida.getId(),
-  //                      corrida.getNome(),
-  //                      corrida.getTurno()))
-  //              .toList();
-  //  }
+    public List<CorridaResponseDTO> ListarCorridaPorCliente(Long clienteId){
+        Cliente cliente = clienteService.retornarClienteAutenticado();
+        List<Corrida> lista = cliente.getCorridas();
+        return lista.stream()
+                .map(corrida -> new CorridaResponseDTO(
+                        corrida.getId(),
+                        corrida.getNome(),
+                        corrida.getTurno()))
+                .toList();
+    }
 
     public List<CorridaResponseDTO> listarCorridaPorNome(String pesquisa){
         Motorista motorista = motoristaService.retornarMotoristaAutenticado();
