@@ -31,9 +31,9 @@ public class ClienteController {
                 .body(mensagem);
     }
 
-    @GetMapping("listar/corrida")
+    @GetMapping("/listar/corrida")
     public ResponseEntity<List<CorridaResponseDTO>> getListarCorrida(){
-        List<CorridaResponseDTO> lista = corridaService.listarCorrida();
+        List<CorridaResponseDTO> lista = corridaService.ListarCorridaPorCliente();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(lista);

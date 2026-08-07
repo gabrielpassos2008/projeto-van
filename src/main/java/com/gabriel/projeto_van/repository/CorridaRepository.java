@@ -21,5 +21,5 @@ public interface CorridaRepository extends JpaRepository<Corrida,Long> {
     // IgnoreCase → ignora maiúsculas e minúsculas
     List<Corrida> findByMotoristaAndNomeContainingIgnoreCase(Motorista motorista,String nome);
 
-    List<Corrida> findByCliente(Cliente cLiente);
+    List<Corrida> findByClientes(Cliente cLiente);
 }

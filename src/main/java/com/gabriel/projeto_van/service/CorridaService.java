@@ -69,7 +69,7 @@ public class CorridaService {
                 .toList();// justa todos os DTOs numa nova lista
     }
 
-    public List<CorridaResponseDTO> ListarCorridaPorCliente(Long clienteId){
+    public List<CorridaResponseDTO> ListarCorridaPorCliente(){
         Cliente cliente = clienteService.retornarClienteAutenticado();
         List<Corrida> lista = cliente.getCorridas();
         return lista.stream()
